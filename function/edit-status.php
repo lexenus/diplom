@@ -7,7 +7,7 @@ if(!isLogin()) {
 }
 
 if(isAdmin()) {
-    
+     
 } else {
     if($_POST['id'] == $_SESSION['id']) {
 

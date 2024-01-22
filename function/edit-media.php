@@ -10,7 +10,7 @@ if(!isLogin()) {
 if(isAdmin()) {
     $_SESSION['loginInfo'] = 'Вы админ и можете редактировать данные этого пользователя';
 } else {
-    if($_GET['id'] == $_SESSION['id']) {
+    if($_POST['id'] == $_SESSION['id']) {
         $_SESSION['loginInfo'] = 'Вы можете редактировать ваши данные';
     } else {
         $_SESSION['loginInfo'] = 'Вы не можете редактировать данные этого пользователя.';

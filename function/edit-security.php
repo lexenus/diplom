@@ -29,6 +29,7 @@ if((userIssetSecurity($_POST['email'])) || ($user['email'] == $_POST['email'])) 
 
 editCredentials($_POST['id'], $_POST['email'], $_POST['password']);
 $_SESSION['loginInfo'] = "Данные пользователя".$user['name']." успешно отредактированы.";
+$_SESSION['email'] = $_POST['email'];
 header("Location: /users.php");
 exit;
 

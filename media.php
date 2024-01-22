@@ -59,11 +59,18 @@ $user = selectUserById($_GET['id']);
         </div>
     </nav>
     <main id="js-page-content" role="main" class="page-content mt-3">
+        <?php if(isset($_SESSION['loginInfo'])): ?>
+            <div class="alert alert-success">
+                <?php 
+                echo $_SESSION['loginInfo'];
+                unset ($_SESSION['loginInfo']);
+                ?>
+            </div>
+        <?php endif; ?>
         <div class="subheader">
             <h1 class="subheader-title">
                 <i class='subheader-icon fal fa-image'></i> Загрузить аватар
             </h1>
-
         </div>
         <form action="/function/edit-media.php" method="POST" enctype="multipart/form-data">
             <div class="row">

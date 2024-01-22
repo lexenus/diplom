@@ -223,7 +223,7 @@ function upload_avatar($id) {
         unlink($filePath);
     }
     if(!is_uploaded_file($_FILES['userpic']['tmp_name'])) {
-        $_SESSION['error'] = "Файл загружен не через форму";
+        $_SESSION['loginInfo'] = "Файл загружен не через форму";
         header("Location: /users.php");
         exit;
     } else {
