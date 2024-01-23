@@ -1,6 +1,6 @@
 <?php
 session_start();
-include ('function/function.php');
+//include ('function/function.php'); зачем подключать файл, если его не используешь тут
 
 ?>
 <!DOCTYPE html>
@@ -70,7 +70,7 @@ include ('function/function.php');
                                             unset($_SESSION['error']); ?>
                                     </div>
                                     <?php endif; ?>
-                                    <form id="js-login" novalidate="" action="/function/register.php" method="post">
+                                    <form id="js-login" novalidate="" action="function/register.php" method="post"> <!--Указываем относительный путь к обработчику, иначе на другой ОС не будет работать-->
                                         <div class="form-group">
                                             <label class="form-label" for="emailverify">Email</label>
                                             <input type="email" id="emailverify" class="form-control" placeholder="Эл. адрес" name="email" required>

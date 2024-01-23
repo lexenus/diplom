@@ -11,6 +11,6 @@ $_SESSION['loginInfo'] = "Вы успешно зарегистрировалис
 $_SESSION['email'] = $user['email'];
 $_SESSION['id'] = $user['id'];
 $_SESSION['role'] = $user['role'];
-header("Location: /users.php");
-
-?>
+header("Location: users.php");// Опять же указываем относительный путь
+/*
+*/?><!-- Закрывающий тег не обязателен, так как дальше нет кода php-->

@@ -13,6 +13,4 @@ $_SESSION['email'] = $user['email'];
 $_SESSION['id'] = $user['id'];
 $_SESSION['role'] = $user['role'];
 
-header("Location: /users.php");
-
-?>
+header("Location: ../users.php");
