@@ -3,10 +3,10 @@
 $hostname ="localhost";
 $dbname = "diplom";
 $username = "root";
-$password = "";
+$password = "root";
 
 
-$conn = new PDO("mysql:host=$hostname; dbname=$dbname", $username, $password);
-$GLOBALS['connect'] = $conn;
+return new PDO("mysql:host=$hostname; dbname=$dbname", $username, $password);
+//$GLOBALS['connect'] = $conn; плохая практика использовать глобальные переменные, там где можно обойтись без этого
 
 ?>

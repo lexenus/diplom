@@ -41,7 +41,7 @@ session_start();
                 <?php echo $_SESSION['error']; unset($_SESSION['error']); ?>
             </div>
             <?php endif; ?>
-            <form action="/function/auth.php" method="post">
+            <form action="function/auth.php" method="post">
                 <div class="form-group">
                     <label class="form-label" for="username">Email</label>
                     <input type="email" name="email" id="username" class="form-control" placeholder="Эл. адрес" value="">

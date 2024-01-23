@@ -2,7 +2,7 @@
 session_start();
 include ('./function/function.php');
 if(!isLogin()) {
-    header("Location: /page_login.php");
+    header("Location: page_login.php");
     exit;
 }
 
@@ -17,7 +17,7 @@ if(isAdmin()) {
         exit;
     }
 }
-$userId = selectUserById($_GET['id']);
+$user = selectUserById($_GET['id']);//ты же выбирашь юзера по его id логично назвать переменную $user
 
 ?>
 <!DOCTYPE html>
@@ -46,7 +46,7 @@ $userId = selectUserById($_GET['id']);
             <ul class="navbar-nav ml-auto">
                 <?php if(isLogin()):?>
                 <li class="nav-item">
-                    <a class="nav-link" href="/function/logout.php">Выйти</a>
+                    <a class="nav-link" href="function/logout.php">Выйти</a>
                 </li>
                 <?php else:?>
                 <li class="nav-item">
@@ -59,8 +59,7 @@ $userId = selectUserById($_GET['id']);
     <main id="js-page-content" role="main" class="page-content mt-3">
         <?php if(isset($_SESSION['loginInfo'])): ?>
         <div class="alert alert-success">
-            <?php 
-            echo $_SESSION['loginInfo'];
+            <?= $_SESSION['loginInfo'];
             unset ($_SESSION['loginInfo']);
             ?>
         </div>
@@ -71,7 +70,7 @@ $userId = selectUserById($_GET['id']);
             </h1>
 
         </div>
-        <form action="/function/edit-info.php" method="POST">
+        <form action="function/edit-info.php" method="POST">
             <div class="row">
                 <div class="col-xl-6">
                     <div id="panel-1" class="panel">
@@ -83,30 +82,32 @@ $userId = selectUserById($_GET['id']);
                                 <!-- username -->
                                 <div class="form-group">
                                     <label class="form-label" for="simpleinput">Имя</label>
-                                    <input name="name" type="text" id="simpleinput" class="form-control" value="<?php echo $userId['name']; ?>">
+                                    <input name="name" type="text" id="simpleinput" class="form-control" value="<?= $user['name'] ?? '' ?>">
                                 </div>
 
                                 <!-- title -->
                                 <div class="form-group">
                                     <label class="form-label" for="simpleinput">Место работы</label>
-                                    <input name="work" type="text" id="simpleinput" class="form-control" value="<?php echo $userId['work']; ?>">
+                                    <input name="work" type="text" id="simpleinput" class="form-control" value="<?= $user['work'] ?? '' ?>">
                                 </div>
 
                                 <!-- tel -->
                                 <div class="form-group">
                                     <label class="form-label" for="simpleinput">Номер телефона</label>
-                                    <input name="phone" type="text" id="simpleinput" class="form-control" value="<?php echo $userId['phone']; ?>">
+                                    <input name="phone" type="text" id="simpleinput" class="form-control" value="<?= $user['phone'] ?? '' ?>">
                                 </div>
 
                                 <!-- address -->
                                 <div class="form-group">
                                     <label class="form-label" for="simpleinput">Адрес</label>
-                                    <input name="address" type="text" id="simpleinput" class="form-control" value="<?php echo $userId['address']; ?>">
+                                    <input name="address" type="text" id="simpleinput" class="form-control" value="<?= $user['address'] ?? '' ?>">
                                 </div>
 
                                 <!-- id -->
                                 <div class="form-group">
-                                    <input type="hidden" name="id" value="<?php echo $_GET['id']; ?>">
+                                    <input type="hidden" name="id" value="<?= $_GET['id']; ?>">
+                                    <!--был вопрос у тебя по этому моменту, в данном случае это оптимальное решение, так как форма на обработчик отсылается
+                                    методом POST другим способом передать мы его не сможем-->
                                 </div>
 
                                 <div class="col-md-12 mt-3 d-flex flex-row-reverse">

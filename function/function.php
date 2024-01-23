@@ -1,32 +1,35 @@
 <?php
 
-include ('connect.php');   
+$pdo = include ('connect.php');
 
-//Соединение с БД
-function connect(){
+//Соединение с БД //
+/*function connect(){
     $hostname ="localhost";
     $dbname = "diplom";
     $username = "root";
     $password = "";
     $conn = new PDO("mysql:host=$hostname; dbname=$dbname", $username, $password);
     return $conn;
-}
+}*/ // файл connect.php уже возвращает объект PDO
 
 //Выбираем пользователя по почте из базы и формируем массив данных (принимается почта)
 function selectUserByEmail($email) {  
-    $conn = connect();
+    //$conn = connect();
+    global $pdo;// а вот тут в данном случае без глобальной переменной не обойтись,
+    // так как у функции своя облать видимости и переменную вне функции она не видит
     $sql = "SELECT * FROM users WHERE email=:email";
-    $stmt = $conn->prepare($sql);
+    $stmt = $pdo->prepare($sql);
     $stmt->execute(['email' => $email]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
     return $user;
 }
 
 //Выбираем пользователя по ID из базы и формируем массив данных (принимается ID)
-function selectUserById($id) {  
-    $conn = connect();
+function selectUserById($id) {
+    //$conn = connect();
+    global $pdo;
     $sql = "SELECT * FROM users WHERE id=:id";
-    $stmt = $conn->prepare($sql);
+    $stmt = $pdo->prepare($sql);
     $stmt->execute(['id' => $id]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
     return $user;
@@ -52,7 +55,6 @@ function userIssetReg($email) {
     }
 }
 
-
 // проверяем существует ли пользователь в базе (при входе) - понимаю что это дубль функции, но не пойму как сделать 
 function userIssetCreat($email) {  
     $user = selectUserByEmail($email);
@@ -63,8 +65,6 @@ function userIssetCreat($email) {
     }
 }
 
-
-
 function userIssetSecurity($email) {  
     $user = selectUserByEmail($email);
     if(empty($user)) { 
@@ -72,25 +72,22 @@ function userIssetSecurity($email) {
     }
 }
 
-
-
-
-
-
 //Создаём массив всех пользователей БД
-function selectAllUsers() {  
-    $conn = connect();
+function selectAllUsers() {
+    //$conn = connect();
+    global $pdo;
     $sql = "SELECT * FROM users";
-    $stmt = $conn->query($sql);
+    $stmt = $pdo->query($sql);
     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $users;
 }
 
 //Создание пользователя (имя, пароль и роль)
 function creatUser($email, $pass) {
-    $conn = connect();
+    //$conn = connect();
+    global $pdo;
     $sql = "INSERT INTO users (email, password, role) VALUE (:email, :password, :role)";
-    $stmt = $conn->prepare($sql);
+    $stmt = $pdo->prepare($sql);
     $stmt -> execute([
         'email' => $email,
         'password' => password_hash($pass, PASSWORD_DEFAULT),
@@ -100,9 +97,10 @@ function creatUser($email, $pass) {
 
 //Добавление общей информации
 function editInfo ($id, $name, $work, $phone, $address) {
-    $conn = connect();
+    //$conn = connect();
+    global $pdo;
     $sql = "UPDATE users SET name=:name, work=:work, phone=:phone, address=:address WHERE id = :id";
-    $stmt = $conn->prepare($sql);
+    $stmt = $pdo->prepare($sql);
     $stmt-> execute([
         ':id' => $id,
         ':name' => $name,
@@ -114,9 +112,10 @@ function editInfo ($id, $name, $work, $phone, $address) {
 
 //Изменение статуса пользователя
 function editStatus($id, $status) {
-    $conn = connect();
+    //$conn = connect();
+    global $pdo;
     $sql = "UPDATE users SET status=:status WHERE id = :id";
-    $stmt = $conn->prepare($sql);
+    $stmt = $pdo->prepare($sql);
     $stmt->execute([
         ':id' => $id,
         ':status' => $status
@@ -125,9 +124,10 @@ function editStatus($id, $status) {
 
 //Обновление ключевых данных
 function editCredentials($id, $email, $password) {
-    $conn = connect();
+    //$conn = connect();
+    global $pdo;
     $sql = "UPDATE users SET email=:email, password=:password WHERE id=:id";
-    $stmt = $conn->prepare($sql);
+    $stmt = $pdo->prepare($sql);
     $stmt->execute([
         ":id" => $id,
         ":email" => $email,
@@ -146,10 +146,11 @@ function editUserPic($id) {
         $nameimg = uniqid().".".$pathinfoImg['extension'];   // генерация переменной
         $uploaddir = 'C:\\OSPanel\\domains\\diplom\\img\\avatars\\'.$nameimg;  //каталог загрузки
         move_uploaded_file($_FILES['userpic']['tmp_name'], $uploaddir);
-        
-        $conn = connect();
+
+        //$conn = connect();
+        global $pdo;
         $sql = "UPDATE users SET userpic=:userpic WHERE id = :id";
-        $stmt = $conn->prepare($sql);
+        $stmt = $pdo->prepare($sql);
         $stmt->execute([
             ':id' => $id,
             ":userpic" => $nameimg
@@ -159,9 +160,10 @@ function editUserPic($id) {
 
 //Изменение социальных сетей
 function editSocial ($id, $vk, $tg, $inst) {
-    $conn = connect();
+    //$conn = connect();
+    global $pdo;
     $sql = "UPDATE users SET vk=:vk, tg=:tg, inst=:inst WHERE id = :id";
-    $stmt = $conn->prepare($sql);
+    $stmt = $pdo->prepare($sql);
     $stmt->execute([
         ':id' => $id,
         'vk' => $vk,
@@ -169,7 +171,6 @@ function editSocial ($id, $vk, $tg, $inst) {
         'inst' => $inst
     ]);
 }
-
 
 //Вошёл пользователь в систему или нет
 function isLogin(){  
@@ -179,7 +180,6 @@ function isLogin(){
         return false;
     }
 }
-
 
 //Проверка Админ пользователь или нет
 function isAdmin(){
@@ -195,7 +195,6 @@ function logOut() {
     session_destroy();
     header("Location: /page_login.php");
 }
-
 
 // Проверяем верно ли введён пароль
 function checkPassword($password, $hashPassword) {
@@ -231,10 +230,11 @@ function upload_avatar($id) {
         $nameimg = uniqid().".".$pathinfoImg['extension'];   // генерация переменной
         $uploaddir = "C:\\OSPanel\\domains\\diplom\\img\\avatars\\".$nameimg;  //каталог загрузки
         move_uploaded_file($_FILES['userpic']['tmp_name'], $uploaddir);
-        
-        $conn = connect();
+
+        //$conn = connect();
+        global $pdo;
         $sql = "UPDATE users SET userpic=:userpic WHERE id = :id";
-        $stmt = $conn->prepare($sql);
+        $stmt = $pdo->prepare($sql);
         $stmt->execute([
             ':id' => $id,
             ":userpic" => $nameimg
@@ -242,18 +242,17 @@ function upload_avatar($id) {
     }
 }
 
-
 function deleteUser($id) {
     $user = selectUserById($id);
     $filePath = "C:\\OSPanel\\domains\\diplom\\img\\avatars\\".$user['userpic'];
     if (file_exists($filePath)) {
         unlink($filePath);
     }
-    $conn = connect();
+    //$conn = connect();
+    global $pdo;
     $sql = "DELETE FROM users WHERE id=:id";
-    $stmt = $conn->prepare($sql);
+    $stmt = $pdo->prepare($sql);
     $stmt->execute([
         ":id" => $id
     ]);
 }
-

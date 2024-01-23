@@ -30,16 +30,16 @@ $user = selectUserByEmail($_SESSION['email']);
             <div class="collapse navbar-collapse" id="navbarColor02">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item ">
-                        <a class="nav-link" href="/users.php">Главная</a>
+                        <a class="nav-link" href="users.php">Главная</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="/page_profile.php">Профиль</a>
+                        <a class="nav-link" href="page_profile.php">Профиль</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav ml-auto">
                     <?php if(isLogin()):?>
                     <li class="nav-item">
-                        <a class="nav-link" href="/function/logout.php">Выйти</a>
+                        <a class="nav-link" href="function/logout.php">Выйти</a>
                     </li>
                     <?php else:?>
                     <li class="nav-item">
@@ -52,7 +52,7 @@ $user = selectUserByEmail($_SESSION['email']);
         <main id="js-page-content" role="main" class="page-content mt-3">
             <div class="subheader">
                 <h1 class="subheader-title">
-                    <i class='subheader-icon fal fa-user'></i> <?php echo $user['name']; ?>
+                    <i class='subheader-icon fal fa-user'></i> <?= !empty($user['name'])  ? $user['name'] : $user['email'] ?>
                 </h1>
             </div>
             <div class="row">
@@ -62,19 +62,19 @@ $user = selectUserByEmail($_SESSION['email']);
                         <div class="row no-gutters row-grid">
                             <div class="col-12">
                                 <div class="d-flex flex-column align-items-center justify-content-center p-4">
-                                    <img src="/img/avatars/<?php echo $user['userpic']; ?>" class="rounded-circle shadow-2 img-thumbnail" alt="">
+                                    <span class="rounded-circle profile-image d-block " style="background-image:url('img/avatars/<?= isset($user['userpic']) ? $user['userpic'] : 'no-avatar.png' ?>'); background-size: cover;"></span>
                                     <h5 class="mb-0 fw-700 text-center mt-3">
-                                        <?php echo $user['name']; ?> 
-                                        <small class="text-muted mb-0"><?php echo $user['work']; ?></small>
+                                        <?= !empty($user['name'])  ? $user['name'] : $user['email'] ?>
+                                        <small class="text-muted mb-0"><?= !empty($user['work'])  ? $user['work'] : 'нет информации' ?></small>
                                     </h5>
                                     <div class="mt-4 text-center demo">
-                                        <a href="http://vk.com/<?php echo $user['vk']; ?>" class="fs-xl" style="color:#C13584">
+                                        <a href="http://vk.com/<?= !empty($user['vk'])  ? $user['vk'] : 'нет информации' ?>" class="fs-xl" style="color:#C13584">
                                             <i class="fab fa-instagram"></i>
                                         </a>
-                                        <a href="http://tg.com/<?php echo $user['tg']; ?>" class="fs-xl" style="color:#4680C2">
+                                        <a href="http://tg.com/<?= !empty($user['tg'])  ? $user['tg'] : 'нет информации' ?>" class="fs-xl" style="color:#4680C2">
                                             <i class="fab fa-vk"></i>
                                         </a>
-                                        <a href="http://instagram.com/<?php echo $user['inst']; ?>" class="fs-xl" style="color:#0088cc">
+                                        <a href="http://instagram.com/<?= !empty($user['inst'])  ? $user['inst'] : 'нет информации' ?>" class="fs-xl" style="color:#0088cc">
                                             <i class="fab fa-telegram"></i>
                                         </a>
                                     </div>
@@ -82,12 +82,12 @@ $user = selectUserByEmail($_SESSION['email']);
                             </div>
                             <div class="col-12">
                                 <div class="p-3 text-center">
-                                    <a href="tel:<?php echo $user['phone']; ?>" class="mt-1 d-block fs-sm fw-400 text-dark">
-                                        <i class="fas fa-mobile-alt text-muted mr-2"></i> <?php echo $user['phone']; ?></a>
-                                    <a href="mailto:<?php echo $user['email']; ?>" class="mt-1 d-block fs-sm fw-400 text-dark">
-                                        <i class="fas fa-mouse-pointer text-muted mr-2"></i> <?php echo $user['email']; ?></a>
+                                    <a href="tel:<?= !empty($user['phone'])  ? $user['phone'] : 'нет информации' ?>" class="mt-1 d-block fs-sm fw-400 text-dark">
+                                        <i class="fas fa-mobile-alt text-muted mr-2"></i> <?= !empty($user['phone'])  ? $user['phone'] : 'нет информации' ?></a>
+                                    <a href="mailto:<?= $user['email']; ?>" class="mt-1 d-block fs-sm fw-400 text-dark">
+                                        <i class="fas fa-mouse-pointer text-muted mr-2"></i> <?= $user['email']; ?></a>
                                     <address class="fs-sm fw-400 mt-4 text-muted">
-                                        <i class="fas fa-map-pin mr-2"></i> <?php echo $user['address']; ?>
+                                        <i class="fas fa-map-pin mr-2"></i> <?= !empty($user['address'])  ? $user['address'] : 'нет информации' ?>
                                     </address>
                                 </div>
                             </div>
